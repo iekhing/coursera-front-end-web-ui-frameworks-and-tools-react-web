@@ -12,7 +12,7 @@ class DishDetail extends Component {
                 <CardImg width="100%" src={dish.image} alt={dish.name} />
                 <CardBody>
                     <CardTitle>{dish.name}</CardTitle>
-                    <CardText>{this.props.selectedDish.description}</CardText>
+                    <CardText>{dish.description}</CardText>
                 </CardBody>
             </Card>)
     }
@@ -30,19 +30,21 @@ class DishDetail extends Component {
             return (
                 <div>
                     <h4>Comments</h4>    
+                    <ul  className="list-unstyled">
                     {
                         comments.map((comment) => {
                             return (
-                                <ul key={comment.id} className="list-unstyled">
-                                    <li>{comment.comment} </li>
-                                    <li>--{comment.author} &nbsp; , &nbsp;{this.formatDate(comment.date)} </li>
+                               
+                                    <li key={comment.id}> 
+                                       <p>{comment.comment}</p> 
+                                       <p>--{comment.author}&nbsp;,<span> &nbsp;{this.formatDate(comment.date)}</span></p>
 
-                                </ul>
+                                    </li>
                             )
 
                         })
                     }
-
+                    </ul>
                 </div>
             )
         else
@@ -53,20 +55,26 @@ class DishDetail extends Component {
 
 
     render() {
-        if (this.props.selectedDish != null)
+       
+        if (this.props.dish != null) {
+        
             return (
+                <div className="container">
                 <div className="row">
                     <div className="col-12 col-md-5 m-1">
-                        {this.renderDish(this.props.selectedDish)}
+                        {this.renderDish(this.props.dish)}
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        {this.renderComments(this.props.selectedDish.comments)}
+                        {this.renderComments(this.props.dish.comments)}
                     </div>
+                </div>
                 </div>
             );
 
-        else
+        } else {
             return <div></div>
+        }
+        
     }
 }
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import DishDetail from './DishdetailComponent';
 
 //import { Media } from 'reactstrap';
 import {
@@ -9,19 +8,19 @@ import {
 
 
 class Menu extends Component {
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
 
-        this.state = {
-            selectedDish: null
+    //     this.state = {
+    //         selectedDish: null
            
-        }
-    }
+    //     }
+    // }
 
-    onDishSelect(dish) {
-       
-        this.setState({ selectedDish: dish });
-    }
+    // onDishSelect(dish) {
+   
+    //     this.setState({ selectedDish: dish });
+    // }
 
    
 
@@ -29,11 +28,13 @@ class Menu extends Component {
         const menu = this.props.dishes.map((dish) => {
             return (
                 <div className="col-12 col-md-5 m-1">
+                   
                     <Card key={dish.id}
-                        onClick={() => this.onDishSelect(dish)}>
+                        onClick={() => this.props.onClick(dish.id)}>
+
                         <CardImg width="100%" src={dish.image} alt={dish.name} />
                         <CardImgOverlay>
-                            <CardTitle>{dish.name},</CardTitle>
+                            <CardTitle>{dish.name}</CardTitle>
                         </CardImgOverlay>
                     </Card>
                 </div>
@@ -45,7 +46,7 @@ class Menu extends Component {
                 <div className="row">
                     {menu}
                 </div>
-                <DishDetail selectedDish={this.state.selectedDish}/>                
+                       
             
             </div>
         );
