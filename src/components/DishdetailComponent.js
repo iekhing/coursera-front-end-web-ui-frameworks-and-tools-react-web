@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Card, CardBody, CardImg, CardText,
     CardTitle
@@ -54,7 +54,6 @@ import {
 
 
    const DishDetail =(props) =>  {
-        console.log (props.dish)
         if (props.dish != null) {
         
             return (
