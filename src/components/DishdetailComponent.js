@@ -6,6 +6,8 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
+
 
 
 const required = (val) => val && val.length;
@@ -20,15 +22,6 @@ class CommentForm extends Component {
 
         this.state = {
             isModalOpen: false,
-            //     rating: '1',
-            //     yourName: '',
-            //     comment: '',
-            //     touched: {
-            //         rating: false,
-            //         yourName: false,
-            //         comment: false,
-
-            //     }
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -46,16 +39,6 @@ class CommentForm extends Component {
     submitValues(values) {
         this.toggleModal();
         this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
-        this.props.addCommentExtra(this.props.dishId, values.rating, values.author, values.comment);
-
-        // if (values != null) {
-        //     console.log(values)
-        //     console.log('Current State is: ' + JSON.stringify(values));
-        //     console.log('Current State is: ' + this.props.dishId);
-        // }
-
-        //values.preventDefault();
-
     }
 
 
@@ -182,7 +165,27 @@ function RenderComments({ comments, addComment, dishId, addCommentExtra }) {
 }
 
 const DishDetail = (props) => {
+    if (props.isLoading) {
+        return(
+            <div className="container">
+                <div className="row">            
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    else if (props.errMess) {
+        return(
+            <div className="container">
+                <div className="row">            
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        );
+    }
+    else if (props.dish != null) 
     return (
+        
         <div className="container">
             <div className="row">
                 <Breadcrumb>
