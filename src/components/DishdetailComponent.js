@@ -18,18 +18,18 @@ class CommentForm extends Component {
     constructor(props) {
         super(props);
 
-         this.state = {
-             isModalOpen: false,
-        //     rating: '1',
-        //     yourName: '',
-        //     comment: '',
-        //     touched: {
-        //         rating: false,
-        //         yourName: false,
-        //         comment: false,
+        this.state = {
+            isModalOpen: false,
+            //     rating: '1',
+            //     yourName: '',
+            //     comment: '',
+            //     touched: {
+            //         rating: false,
+            //         yourName: false,
+            //         comment: false,
 
-        //     }
-         };
+            //     }
+        };
 
         this.toggleModal = this.toggleModal.bind(this);
         this.close = this.close.bind(this);
@@ -45,14 +45,19 @@ class CommentForm extends Component {
 
     submitValues(values) {
         this.toggleModal();
-        if (values != null) {
-            console.log(values)
-            console.log('Current State is: ' + JSON.stringify(values));
-        }
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.addCommentExtra(this.props.dishId, values.rating, values.author, values.comment);
+
+        // if (values != null) {
+        //     console.log(values)
+        //     console.log('Current State is: ' + JSON.stringify(values));
+        //     console.log('Current State is: ' + this.props.dishId);
+        // }
 
         //values.preventDefault();
 
     }
+
 
 
     close(event) {
@@ -88,7 +93,7 @@ class CommentForm extends Component {
                                             required, minLength: minLength(3), maxLength: maxLength(15)
                                         }}
                                     />
-                                     <Errors
+                                    <Errors
                                         className="text-danger"
                                         model=".yourName"
                                         show="touched"
@@ -97,7 +102,7 @@ class CommentForm extends Component {
                                             minLength: 'Must be greater than 2 characters',
                                             maxLength: 'Must be 15 characters or less'
                                         }}
-                                     />
+                                    />
                                 </Col>
                             </Row>
                             <Row className="form-group">
@@ -145,7 +150,7 @@ function formatDate(string) {
     return `${mo} ${da}, ${ye}`
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment, dishId, addCommentExtra }) {
     if (comments != null)
         return (
             <div>
@@ -153,6 +158,7 @@ function RenderComments({ comments }) {
                 <ul className="list-unstyled">
                     {
                         comments.map((comment) => {
+                            console.log(comment.comment)
                             return (
 
                                 <li key={comment.id}>
@@ -163,8 +169,11 @@ function RenderComments({ comments }) {
                             )
 
                         })
+
                     }
+
                 </ul>
+                <CommentForm dishId={dishId} addComment={addComment} addCommentExtra={addCommentExtra} />
             </div>
         )
     else
@@ -190,8 +199,12 @@ const DishDetail = (props) => {
                     <RenderDish dish={props.dish} />
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    <RenderComments comments={props.comments} />
-                    <CommentForm />
+                    <RenderComments comments={props.comments}
+                        addComment={props.addComment}
+                        dishId={props.dish.id}
+                        addCommentExtra={props.addCommentExtra}
+                    />
+
                 </div>
 
             </div>
