@@ -8,44 +8,58 @@ import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 function About(props) {
 
-    const leaders = props.leaders.leaders.map((leader) => {
+    
 
-        return (
-            <Fade key={leader.id}  in >
-                <RenderLeader key={leader.id} leader={leader} />
-            </Fade>
-        );
-    });
 
-    if (props.leaders.isLoading) {
-        return (
-            <div className="container">
-                <div className="row">
-                    <Loading />
+    const leaders = (() => {
+        if (props.leaders.isLoading) {
+            return (
+                <div className="container">
+                    <div className="row">
+                        <Loading />
+                    </div>
                 </div>
-            </div>
-        );
-    }
-    else if (props.leaders.errMess) {
-        return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
+            );
+        }
+        else if (props.leaders.errMess) {
+            return (
+                <div className="container">
+                    <div className="row">
                         <h4>{props.leaders.errMess}</h4>
                     </div>
                 </div>
-            </div>
-        );
-    }
+            );
+        }
+        else {
+            return (
+                <Media list>
+                    <Stagger in>
+                        {
+                            props.leaders.leaders.map((leader) => {
+                                return (
+                                    <Fade key={leader.id} in >
+                                        <RenderLeader key={leader.id} leader={leader} />
+                                    </Fade>
+
+                                )
+                            })
+                        }
+                    </Stagger>
+                </Media>
+            )
+        }
+    })();
+
+
 
     function RenderLeader({ leader }) {
         return (
 
             <Media tag="li" key={leader.id}>
-                <Media  left middle>
+                <Media left middle>
                     <Media object src={baseUrl + leader.image} alt={leader.name} />
                 </Media>
-                <Media  body className="ml-5">
+                <Media body className="ml-5">
                     <h3>{leader.name}</h3>
                     <h6>{leader.designation}</h6>
                     <p>{leader.description}</p>
@@ -112,11 +126,9 @@ function About(props) {
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
-                    <Media list>
-                        <Stagger in>
-                            {leaders}
-                        </Stagger>
-                    </Media>
+
+                    {leaders}
+
                 </div>
             </div>
         </div>
